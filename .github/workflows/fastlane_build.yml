@@ -11,7 +11,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "HOCKEYAPP_API_TOKEN=$HOCKEYAPP_API_TOKEN" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
       - name: Run Fastlane
         run: fastlane beta
