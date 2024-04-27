@@ -15,7 +15,23 @@ jobs:
 
       # - name: bundle install
       #   run: bundle install
-      - name: navigating to ios
-        run: cd ios
-      - name: Run Fastlane
-        run: fastlane beta
+      # - name: navigating to ios
+      #   run: cd ios
+      # - name: Run Fastlane
+      #   run: fastlane beta
+      - name: Set up Ruby
+        run: |
+          rbenv install 3.0.2
+          rbenv local 3.0.2
+          gem install bundler
+
+      - name: Deploy with Fastlane
+        run: |
+          # Set up Fastlane environment
+          cd ios
+          bundle install
+          bundle exec fastlane beta
+
+          # Run Fastlane commands (e.g., build, distribute)
+          bundle exec fastlane deploy
+        
