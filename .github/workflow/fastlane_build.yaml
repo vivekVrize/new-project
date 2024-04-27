@@ -1,0 +1,13 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set environment variables
+        run: |
+          echo "HOCKEYAPP_API_TOKEN=$HOCKEYAPP_API_TOKEN" >> $GITHUB_ENV
+
+      - name: Run Fastlane
+        run: fastlane beta

@@ -1,0 +1,147 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :get_version_details do
+    current_branch = git_branch(branch: true)
+    output = sh "git describe --tags --abbrev=0"
+  
+    # version = if output.start_with?("v")
+    #             output.sub(/^v/, '')  # Remove leading "v" from tag name
+    #           else
+    #             # Handle case where there's no tag
+    #             "0.0.0-dev.#{current_branch}"  # Example default version for non-tagged branches
+    #           end
+    # bumptype = 
+    #           if output.include?("rc")
+    #             'patch'
+    #           elsif output.include?("min")
+    #             'minor'
+    #           elsif output.include?("maj")
+    #             'major'
+    #           else
+    #             '-'
+    #           end 
+    envtype = if output.include?("dev")
+                'dev'
+              elsif output.include?("stage")
+                'stage'
+              elsif output.include?("prod")
+                'prod'
+              else
+                '-'
+              end
+    region = if output.include?("sg")
+                'sg'
+              elsif output.include?("au")
+                'au'
+              elsif output.include?("usa")
+                'usa'
+              else
+                '-'
+              end
+  
+    build_number = get_build_number
+    version_number = get_version_number
+    UI.message("environment type from tag: #{envtype}")
+    UI.message("region from tag: #{region}")
+    UI.message("current build_number: #{build_number}")
+    UI.message("current version_number: #{version_number}")
+    UI.message("current bumptype: #{bumptype}")
+    ENV['ENV_TYPE'] = envtype
+    ENV['REGION'] = region
+    ENV['BUILD_NUMBER'] = build_number
+    ENV['VERSION_NUMBER'] = version_number
+    ENV['BUMP_TYPE'] = bumptype
+  end
+
+  # lane :increment_version do
+
+  #   get_version_details
+    
+  #   envtype = ENV['ENV_TYPE']
+  #   region = ENV['REGION']
+  #   build_number = ENV['BUILD_NUMBER']
+  #   version_number = ENV['VERSION_NUMBER']
+  #   bumptype = ENV['BUMP_TYPE']
+
+  #   if envtype == 'dev'
+  #     increment_version_number(version_number: "4.0.1")
+  #   elsif envtype == '-'
+  #     UI.message("current new_build_number: no need to increment build or version number")
+  #   else
+  #     set_build_number(build_number: build_number+1)
+  #   end
+
+  #   new_build_number = get_build_number
+
+  #   UI.message("current new_build_number: #{new_build_number}")
+
+  # end
+
+  lane :extract_tag do
+    # Define the string containing version information
+    # version_string = "v2.0.0-dev-AU"
+    version_string = sh "git describe --tags --abbrev=0"
+
+    # Use regular expression with shebang (works on most systems)
+    version = sh "echo '#{version_string}' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+'"
+
+    # Check if version is empty (could indicate missing build number)
+    if version.empty?
+      UI.warn "Build number not found in the provided string"
+    else
+      UI.message "Extracted build number: #{version}"
+      ENV['BUILD_NUMBER'] = version
+    end
+  end
+
+  lane :extract_build_number do
+    version_number = get_version_number
+    ENV['VERSION_NUMBER'] = version_number
+  end
+
+  lane :build_number_increment do
+    extract_tag
+    extract_build_number
+    version = ENV['BUILD_NUMBER']
+    app_version = ENV['VERSION_NUMBER'] # Will get this version from the environment variable
+
+    app_version_major, app_version_minor, app_version_patch = app_version.split('.')
+    major, minor, patch = version.split('.');
+
+    UI.message("#{patch.to_i != 0} and patch = #{patch}")
+
+    if patch.to_i != 0
+      app_version_patch = (app_version_patch.to_i + 1).to_s
+    elsif minor.to_i != 0
+      app_version_minor = (app_version_minor.to_i + 1).to_s
+    elsif major.to_i != 0
+      app_version_major = (app_version_major.to_i + 1).to_s
+    else
+      UI.message("promotion")
+    end  
+
+    app_version = "#{app_version_major}.#{app_version_minor}.#{app_version_patch}"
+
+    UI.message("application version: #{app_version}")
+    ENV['APP_VERSION'] = app_version
+
+  end
+  
+end
