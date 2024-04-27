@@ -11,7 +11,8 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+          # echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "My secret value: ${{ secrets.BUILD_NUMBER }}"
 
       # - name: bundle install
       #   run: bundle install
@@ -34,7 +35,4 @@ jobs:
           cd ios
           bundle install
           bundle exec fastlane beta
-
-          # Run Fastlane commands (e.g., build, distribute)
-          bundle exec fastlane deploy
         
