@@ -145,7 +145,8 @@ platform :ios do
   end
 
   lane :beta do
-    UI.message("lane build number from github #{ENV['VERSION_NUMBER']}");
+    hello_world = ENV['VERSION_NUMBER']
+    UI.message("lane build number from github #{hello_world}");
   end
   
 end
