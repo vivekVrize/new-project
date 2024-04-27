@@ -143,5 +143,9 @@ platform :ios do
     ENV['APP_VERSION'] = app_version
 
   end
+
+  lane :beta do
+    UI.message("lane build number from github #{ENV['BUILD_NUMBER']}");
+  end
   
 end
