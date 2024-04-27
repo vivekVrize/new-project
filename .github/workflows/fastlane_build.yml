@@ -19,10 +19,13 @@ jobs:
       #   run: cd ios
       # - name: Run Fastlane
       #   run: fastlane beta
+      - name: Set up Ruby 3.3.1
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.1'
+
       - name: Set up Ruby
         run: |
-          rbenv install 3.0.2
-          rbenv local 3.0.2
           gem install bundler
 
       - name: Deploy with Fastlane
