@@ -111,14 +111,14 @@ platform :ios do
     end
   end
 
-  lane :extract_build_number do
-    version_number = get_version_number
-    ENV['VERSION_NUMBER'] = version_number
-  end
+  # lane :extract_build_number do
+  #   version_number = get_version_number
+  #   ENV['VERSION_NUMBER'] = version_number
+  # end
 
   lane :build_number_increment do
     extract_tag
-    extract_build_number
+    # extract_build_number
     version = ENV['BUILD_NUMBER']
     app_version = ENV['VERSION_NUMBER'] # Will get this version from the environment variable
 
@@ -144,10 +144,10 @@ platform :ios do
 
   end
 
-  lane :beta do
-    hello_world = ENV['VERSION_NUMBER'].include?("4")
-    # hello_world = "4.0.0".to_s.split('.').join('.')
-    UI.message("lane build number from github #{hello_world}");
-  end
+  # lane :beta do
+  #   hello_world = ENV['VERSION_NUMBER'].include?("4")
+  #   # hello_world = "4.0.0".to_s.split('.').join('.')
+  #   UI.message("lane build number from github #{hello_world}");
+  # end
   
 end

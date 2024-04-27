@@ -36,5 +36,5 @@ jobs:
           # Set up Fastlane environment
           cd ios
           bundle install
-          bundle exec fastlane beta
+          bundle exec fastlane build_number_increment
         
