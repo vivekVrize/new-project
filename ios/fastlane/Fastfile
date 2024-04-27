@@ -145,7 +145,8 @@ platform :ios do
   end
 
   lane :beta do
-    hello_world = ENV['VERSION_NUMBER']
+    hello_world = ENV['VERSION_NUMBER'].to_s.split('.').join('.')
+    # hello_world = "4.0.0".to_s.split('.').join('.')
     UI.message("lane build number from github #{hello_world}");
   end
   
