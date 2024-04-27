@@ -14,4 +14,6 @@ jobs:
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
 
       - name: Run Fastlane
+        run: bundle install
+        run: cd ios
         run: fastlane beta
