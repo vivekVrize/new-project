@@ -52,3 +52,4 @@ jobs:
           cd ios
           bundle install
           bundle exec fastlane build_number_increment
+          bundle exec fastlane beta
