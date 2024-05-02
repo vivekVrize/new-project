@@ -6,28 +6,41 @@ env:
   VERSION_NUMBER: ${{ secrets.VERSION_NUMBER }}
 jobs: 
   build:
-    runs-on: ubuntu-latest
+    runs-on: flyci-macos-large-latest-m1
+    strategy:
+      matrix:
+        node-version: [18.x]
     steps:
+      # Setup Node
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Setup XCode
+      - name: Install XCodes
+        run: |
+          brew install robotsandpencils/made/xcodes
+          xcodes install 15.3
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      # Install NPM Packages
+      - name: Install dependencies
+        run: npm install
 
       - name: Set environment variables
         run: |
           # echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
           echo "My secret value: ${{ secrets.VERSION_NUMBER }}"
 
-      # - name: bundle install
-      #   run: bundle install
-      # - name: navigating to ios
-      #   run: cd ios
-      # - name: Run Fastlane
-      #   run: fastlane beta
       - name: Set up Ruby 3.3.1
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3.1'
+          bundler-cache: true
 
       - name: Set up Ruby
         run: |
@@ -39,4 +52,3 @@ jobs:
           cd ios
           bundle install
           bundle exec fastlane build_number_increment
-        

@@ -31,14 +31,6 @@ Description of what the lane does
 
 
 
-### ios extract_build_number
-
-```sh
-[bundle exec] fastlane ios extract_build_number
-```
-
-
-
 ### ios build_number_increment
 
 ```sh
