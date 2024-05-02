@@ -50,6 +50,7 @@ jobs:
         run: |
           # Set up Fastlane environment
           cd ios
+          pod install
           bundle install
           bundle exec fastlane build_number_increment
           bundle exec fastlane beta

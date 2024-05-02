@@ -145,7 +145,6 @@ platform :ios do
   end
 
   lane :beta do
-    sh "pod install"
     build_app
   end
   
