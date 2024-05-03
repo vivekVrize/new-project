@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - dev
 env:
   VERSION_NUMBER: ${{ secrets.VERSION_NUMBER }}
 jobs: 

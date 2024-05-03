@@ -1,19 +1,14 @@
-name: Releases
-
-on: 
+on:
   push:
     tags:
-    - '*'
-
+      - '*'
 jobs:
-
-  build:
+  generate-release-notes:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-    - uses: actions/checkout@v3
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "release.tar.gz,foo/*.txt"
-        bodyFile: "body.md"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Generate release notes
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
