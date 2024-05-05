@@ -146,6 +146,7 @@ platform :ios do
 
   lane :beta do
     build_app
+    UI.message("app_build_complete")
   end
   
 end
