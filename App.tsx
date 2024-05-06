@@ -74,7 +74,7 @@ function App(): React.JSX.Element {
         <Header />
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            backgroundColor: isDarkMode ? Colors.pink : Colors.white,
           }}>
           <Section title="Step One2">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
