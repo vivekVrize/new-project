@@ -16,7 +16,7 @@ changelog:
         - 'bug'
     - title: '🧰 Maintenance'
       label: 'chore'
-# template: |
-#   ## Changes
+template: |
+  ## Changes
 
-#   $CHANGES
+  $CHANGES
