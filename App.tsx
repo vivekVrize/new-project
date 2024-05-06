@@ -83,7 +83,7 @@ function App(): React.JSX.Element {
           <Section title="See Your Changes fixed">
             <ReloadInstructions />
           </Section>
-          <Section title="Debug">
+          <Section title="Release">
             <DebugInstructions />
           </Section>
           <Section title="Learn Less">
