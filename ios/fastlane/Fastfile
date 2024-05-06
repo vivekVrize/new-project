@@ -16,7 +16,8 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
+  desc "Bug fix"
+
   lane :get_version_details do
     current_branch = git_branch(branch: true)
     output = sh "git describe --tags --abbrev=0"
@@ -111,14 +112,14 @@ platform :ios do
     end
   end
 
-  # lane :extract_build_number do
-  #   version_number = get_version_number
-  #   ENV['VERSION_NUMBER'] = version_number
-  # end
+  lane :extract_build_number do
+    version_number = get_version_number
+    ENV['VERSION_NUMBER'] = version_number
+  end
 
   lane :build_number_increment do
     extract_tag
-    # extract_build_number
+    extract_build_number
     version = ENV['BUILD_NUMBER']
     app_version = ENV['VERSION_NUMBER'] # Will get this version from the environment variable
 
@@ -144,9 +145,25 @@ platform :ios do
 
   end
 
-  lane :beta do
-    build_app
-    UI.message("app_build_complete")
+  lane :build do
+    # sh "../ && bundle install"
+    # sh "pod install"
+    build_app(
+      workspace: "RespireeMobile.xcworkspace",  # Path to your Xcode workspace
+      scheme: "SGP Dev",
+      # export_options: {
+      #   provisioningProfiles: {
+      #     "com.respiree.dev" => "Xcode Managed Profile",
+      #   }
+      # },                 # Scheme name
+      clean: true                        # Clean before building
+    )
+    
   end
-  
+
+  # lane :beta do
+  #   # increment_build_number(xcodeproj: "RespireeMobile.xcodeproj")
+  #   build_app(workspace: "RespireeMobile.xcworkspace", scheme: "SGP Dev", xcodebuild_command:"xcodebuild -allowProvisioningUpdates")
+  #   upload_to_testflight
+  # end
 end
