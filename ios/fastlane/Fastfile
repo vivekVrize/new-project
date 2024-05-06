@@ -39,6 +39,7 @@ platform :ios do
     #             '-'
     #           end 
     envtype = if output.include?("dev")
+      
                 'dev'
               elsif output.include?("stage")
                 'stage'
